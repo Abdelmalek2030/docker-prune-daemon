@@ -1,0 +1,22 @@
+[Unit]
+Description=Docker Prune Background Daemon for Resource Maintenance
+Documentation=https://github.com/Abdelmalek2030/docker-prune-daemon
+After=docker.service network.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/docker-prune-daemon
+Restart=always
+RestartSec=30s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=docker-prune-daemon
+
+# Hardening & Security Measures
+ProtectSystem=full
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
