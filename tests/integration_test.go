@@ -3,14 +3,13 @@ package main
 import (
 	"context"
 	"os"
-	"path/filepath"
 	"testing"
 	"time"
 )
 
 func TestDaemonIntegrationDryRun(t *testing.T) {
 	tmpDir := t.TempDir()
-	
+
 	// Verify test environment initialization
 	if tmpDir == "" {
 		t.Fatalf("Failed to allocate temporary test directory")
