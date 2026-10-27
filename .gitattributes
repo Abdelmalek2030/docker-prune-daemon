@@ -5,14 +5,15 @@
 *.8 text eol=lf
 Makefile text eol=lf
 
-# Ensure GitHub Linguist classifies the repository as 100% Go
+# Force GitHub Linguist to classify repository strictly as 100% Go core daemon
+*.sh linguist-detectable=false
 Makefile linguist-detectable=false
 *.service linguist-detectable=false
 .markdownlint.json linguist-detectable=false
 man/* linguist-documentation=true
 docs/* linguist-documentation=true
 
-# Exclude CI, development metadata, and standalone bootstrap scripts from release tarballs
+# Exclude CI, development metadata, and bootstrap scripts from release tarballs
 .github/ export-ignore
 docs/ export-ignore
 .editorconfig export-ignore
