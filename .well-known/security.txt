@@ -1,0 +1,5 @@
+# Security Vulnerability Disclosure Contact for docker-prune-daemon
+Contact: mailto:Abdelmalek2030github@hotmail.com
+Preferred-Languages: en, vi
+Policy: https://github.com/Abdelmalek2030/docker-prune-daemon/blob/main/SECURITY.md
+Canonical: https://github.com/Abdelmalek2030/docker-prune-daemon/.well-known/security.txt
