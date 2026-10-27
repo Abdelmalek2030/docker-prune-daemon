@@ -1,0 +1,23 @@
+name: Continuous Native Go Fuzzing
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # Chạy tự động mỗi tối thứ Hai hàng tuần
+  workflow_dispatch:
+
+jobs:
+  fuzz:
+    name: Fuzz Statfs & Watermark Evaluator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Run Fuzz Tests (1 Minute Limit)
+        run: |
+          go test -fuzz=FuzzWatermark -fuzztime=60s ./...
