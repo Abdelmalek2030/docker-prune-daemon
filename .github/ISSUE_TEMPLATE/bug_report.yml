@@ -1,0 +1,32 @@
+name: Bug Report
+description: File a reproducible bug or unexpected daemon behavior
+title: "[Bug]: "
+labels: ["type/bug", "status/triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please ensure you have reviewed the [RUNBOOK](https://github.com/Abdelmalek2030/docker-prune-daemon/blob/main/docs/RUNBOOK.md) before filing.
+  - type: textarea
+    id: symptoms
+    attributes:
+      label: Bug Description
+      description: Clear concise description of what went wrong.
+      placeholder: The daemon encountered a statfs watermark evaluation fault...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Exact commands or systemd states to trigger the anomaly.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Binary Version
+      description: Output of `docker-prune-daemon -version`
+      placeholder: v1.0.0
+    validations:
+      required: true
