@@ -1,0 +1,36 @@
+name: Release Provenance
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release-artifacts:
+    name: Build Static Binary & SHA256 Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Compile Static Linux AMD64 & ARM64 Artifacts
+        run: |
+          mkdir -p dist
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o dist/docker-prune-daemon-linux-amd64 .
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/docker-prune-daemon-linux-arm64 .
+          tar -czf dist/docker-prune-daemon-${{ github.ref_name }}-linux-amd64.tar.gz -C dist docker-prune-daemon-linux-amd64 -C .. docker-prune-daemon.service man/ LICENSE README.md
+          tar -czf dist/docker-prune-daemon-${{ github.ref_name }}-linux-arm64.tar.gz -C dist docker-prune-daemon-linux-arm64 -C .. docker-prune-daemon.service man/ LICENSE README.md
+          rm -f dist/docker-prune-daemon-linux-amd64 dist/docker-prune-daemon-linux-arm64
+          cd dist && sha256sum *.tar.gz > SHA256SUMS
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
