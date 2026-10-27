@@ -1,0 +1,11 @@
+suppress_empty: true
+categories:
+  - title: 💡 Ideas
+    description: Suggest new features or architectural improvements
+    emoji: 💡
+  - title: 💬 Discussions
+    description: General chat, deployment stories, and community support
+    emoji: 💬
+  - title: Q&A
+    description: Ask questions about systemd integration or statfs watermarks
+    emoji: 🙋
