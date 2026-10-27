@@ -37,7 +37,15 @@ A lightweight, zero-dependency background daemon written in Go for autonomous di
 
 ## Installation & Systemd Deployment
 
-### Build & Install via Makefile
+### Method 1: Standalone One-Line Bootstrap (Recommended)
+
+Install the latest release binary, systemd service unit, and man(8) page automatically:
+
+```sh
+curl -sSfL [https://raw.githubusercontent.com/Abdelmalek2030/docker-prune-daemon/main/install.sh](https://raw.githubusercontent.com/Abdelmalek2030/docker-prune-daemon/main/install.sh) | sudo sh
+```
+
+### Method 2: Build & Install via Makefile
 
 ```sh
 git clone git@github.com:Abdelmalek2030/docker-prune-daemon.git
@@ -84,7 +92,6 @@ make bench
 ## Security & Governance
 
 - [Security Policy & Vulnerability Disclosure](SECURITY.md)
-- [Code Owners & Review Gates](.github/CODEOWNERS)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Changelog History](CHANGELOG.md)
 
