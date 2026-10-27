@@ -1,54 +1,46 @@
-PREFIX ?= /usr/local
-BINDIR ?= $(PREFIX)/bin
-SYSTEMD_DIR ?= /etc/systemd/system
-MANDIR ?= $(PREFIX)/share/man/man8
-BINARY := docker-prune-daemon
+BINARY_NAME=docker-prune-daemon
+VERSION=1.0.0
+LDFLAGS="-s -w -X main.Version=$(VERSION)"
 
-.PHONY: all help build check lint test bench install uninstall clean
+.PHONY: all build test clean lint check bench install uninstall
 
-all: build
-
-help:
-	@printf "docker-prune-daemon build & deployment interface\n\n"
-	@printf "Targets:\n"
-	@printf "  make build      Compile stripped, static Go binary\n"
-	@printf "  make check      Verify Go formatting and module tidy state\n"
-	@printf "  make lint       Run go vet static analysis across all packages\n"
-	@printf "  make test       Execute unit tests with race detector enabled\n"
-	@printf "  make bench      Run statfs syscall performance benchmarks\n"
-	@printf "  make install    Install binary, systemd unit, and man(8) page\n"
-	@printf "  make uninstall  Remove installed binary, unit file, and man page\n"
-	@printf "  make clean      Remove compiled artifacts\n"
+all: clean check lint test build
 
 build:
-	CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o $(BINARY) .
-
-check:
-	@test -z "$$(gofmt -l .)" || (printf "Error: gofmt required on:\n$$(gofmt -l .)\n" && exit 1)
-
-lint: check
-	go vet ./...
+	@echo "==> Compiling static binary (CGO_ENABLED=0)..."
+	CGO_ENABLED=0 go build -trimpath -ldflags=$(LDFLAGS) -o $(BINARY_NAME) .
 
 test:
-	go test -v -race ./...
+	@echo "==> Running behavioral unit tests with race detector..."
+	go test -v -race -cover ./...
+
+check:
+	@echo "==> Verifying gofmt code formatting compliance..."
+	@test -z "$$(gofmt -s -l .)" || (echo "Error: Unformatted Go files detected" && exit 1)
+
+lint:
+	@echo "==> Running static analysis via go vet..."
+	go vet ./...
 
 bench:
+	@echo "==> Executing syscall.Statfs performance benchmarks..."
 	go test -bench=. -benchmem ./...
 
+clean:
+	@echo "==> Cleaning build artifacts..."
+	rm -f $(BINARY_NAME)
+	rm -rf dist/
+
 install: build
-	install -d "$(DESTDIR)$(BINDIR)"
-	install -m 0755 $(BINARY) "$(DESTDIR)$(BINDIR)/$(BINARY)"
-	install -d "$(DESTDIR)$(SYSTEMD_DIR)"
-	install -m 0644 docker-prune-daemon.service "$(DESTDIR)$(SYSTEMD_DIR)/docker-prune-daemon.service"
-	@if [ -f man/docker-prune-daemon.8 ]; then \
-		install -d "$(DESTDIR)$(MANDIR)"; \
-		install -m 0644 man/docker-prune-daemon.8 "$(DESTDIR)$(MANDIR)/docker-prune-daemon.8"; \
-	fi
+	@echo "==> Installing binary, systemd unit, and man(8) page..."
+	install -m 0755 $(BINARY_NAME) /usr/local/bin/$(BINARY_NAME)
+	install -m 0644 docker-prune-daemon.service /etc/systemd/system/docker-prune-daemon.service
+	install -m 0644 man/docker-prune-daemon.8 /usr/local/share/man/man8/docker-prune-daemon.8
+	systemctl daemon-reload
 
 uninstall:
-	rm -f "$(DESTDIR)$(BINDIR)/$(BINARY)"
-	rm -f "$(DESTDIR)$(SYSTEMD_DIR)/docker-prune-daemon.service"
-	rm -f "$(DESTDIR)$(MANDIR)/docker-prune-daemon.8"
-
-clean:
-	rm -f $(BINARY)
+	@echo "==> Uninstalling system components..."
+	rm -f /usr/local/bin/$(BINARY_NAME)
+	rm -f /etc/systemd/system/docker-prune-daemon.service
+	rm -f /usr/local/share/man/man8/docker-prune-daemon.8
+	systemctl daemon-reload
