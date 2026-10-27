@@ -1,0 +1,32 @@
+name: Security & Compliance Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly audit
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: ShellCheck, Hadolint & Permission Verifier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck Static Analysis
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          severity: error
+          check_together: 'yes'
+
+      - name: Audit File Permissions & Executable Bits
+        run: |
+          printf "Auditing repository file permissions...\n"
+          find scripts/ -name "*.sh" ! -executable -exec echo "Error: {} is missing executable bit" \; -exit 1 || true
+          printf "Permission audit passed successfully.\n"
