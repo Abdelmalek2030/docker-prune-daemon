@@ -84,6 +84,7 @@ make bench
 ## Security & Governance
 
 - [Security Policy & Vulnerability Disclosure](SECURITY.md)
+- [Code Owners & Review Gates](.github/CODEOWNERS)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Changelog History](CHANGELOG.md)
 
