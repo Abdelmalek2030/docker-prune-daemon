@@ -1,0 +1,57 @@
+.TH DOCKER-PRUNE-DAEMON 8 "October 2026" "docker-prune-daemon 1.0.0" "System Administration Utilities"
+.SH NAME
+docker-prune-daemon \- lightweight autonomous disk space reclaim daemon for Docker environments
+.SH SYNOPSIS
+.B docker-prune-daemon
+.RB [ \-interval
+.IR duration ]
+.RB [ \-threshold
+.IR percent ]
+.RB [ \-until
+.IR duration ]
+.RB [ \-dry-run ]
+.RB [ \-once ]
+.RB [ \-version ]
+.SH DESCRIPTION
+.B docker-prune-daemon
+is a zero-dependency background daemon engineered in Go that monitors filesystem utilization via atomic
+.BR statfs (2)
+syscalls and reclaims unused Docker containers, dangling images, and build caches when disk pressure reaches a configurable watermark.
+.SH OPTIONS
+.TP
+.BI \-interval " duration"
+Polling interval between disk audits (default:
+.BR 30m ).
+.TP
+.BI \-threshold " percent"
+Disk usage percentage watermark (1\-99) required to trigger a prune cycle (default:
+.BR 80 ).
+.TP
+.BI \-until " duration"
+Only prune Docker resources created before the specified duration (default:
+.BR 24h ).
+.TP
+.B \-dry-run
+Inspect filesystem watermarks and log intended actions without executing destructive Docker prune commands.
+.TP
+.B \-once
+Execute a single audit cycle and exit deterministically.
+.TP
+.B \-version
+Print version string and exit.
+.SH ENVIRONMENT
+.TP
+.B DOCKER_DATA_ROOT
+Target filesystem path inspected via
+.BR statfs (2)
+(default:
+.BR / ).
+.SH EXIT STATUS
+.TP
+.B 0
+Clean shutdown via signal handler or successful single-pass execution.
+.TP
+.B 1
+Configuration validation failure or unrecoverable initialization error.
+.SH AUTHOR
+Abdelmalek <Abdelmalek2030github@hotmail.com>
