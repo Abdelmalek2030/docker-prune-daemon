@@ -12,10 +12,11 @@ Makefile linguist-detectable=false
 man/* linguist-documentation=true
 docs/* linguist-documentation=true
 
-# Exclude CI and development metadata from release tarballs
+# Exclude CI, development metadata, and standalone bootstrap scripts from release tarballs
 .github/ export-ignore
 docs/ export-ignore
 .editorconfig export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
 .markdownlint.json export-ignore
+install.sh export-ignore
