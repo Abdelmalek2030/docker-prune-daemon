@@ -1,22 +1,36 @@
 [Unit]
-Description=Docker Prune Background Daemon for Resource Maintenance
-Documentation=https://github.com/Abdelmalek2030/docker-prune-daemon
-After=docker.service network.target
+Description=Lightweight Docker Resource Reclaim Daemon
+Documentation=man:docker-prune-daemon(8) https://github.com/Abdelmalek2030/docker-prune-daemon
+After=network.target docker.service
 Requires=docker.service
 
 [Service]
 Type=simple
-User=root
-ExecStart=/usr/local/bin/docker-prune-daemon
-Restart=always
-RestartSec=30s
+ExecStart=/usr/local/bin/docker-prune-daemon -interval=30m -threshold=80 -until=24h
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=15s
+
+# Cgroups v2 Resource Predictability Limits
+MemoryAccounting=true
+MemoryMax=32M
+CPUAccounting=true
+CPUQuota=10%
+
+# Kernel & Filesystem Sandboxing
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=docker-prune-daemon
-
-# Hardening & Security Measures
-ProtectSystem=full
-NoNewPrivileges=true
 
 [Install]
 WantedBy=multi-user.target
