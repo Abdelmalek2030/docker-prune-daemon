@@ -1,12 +1,16 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to `docker-prune-daemon` will be documented in this file.
 
-## [1.0.0] - 2026-10-27
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0-0.html).
+
+## [1.0.0] - 2026-10-16
 
 ### Added
-- Core Go background daemon with `syscall.Statfs` disk usage watermark evaluation.
-- Context-aware signal trapping (`SIGINT`, `SIGTERM`, `SIGHUP`) and `--dry-run` / `--once` execution modes.
-- Hardened `systemd` service unit with Cgroups v2 resource caps (`MemoryMax=32M`).
-- Section 8 UNIX manual page (`man/docker-prune-daemon.8`) and static `CGO_ENABLED=0` `Makefile`.
-- Automated GitHub Actions CI pipeline for `gofmt`, `go vet`, race detection, and syscall benchmarks.
+- Initial production release of `docker-prune-daemon`.
+- Zero-dependency Go core utilizing kernel-level `syscall.Statfs` watermark auditing.
+- Hardened systemd service unit with Cgroups v2 resource ceilings (`MemoryMax=32M`).
+- Automated one-line curl bootstrap installer (`install.sh`).
+- UNIX manual page for system administration (`man/docker-prune-daemon.8`).
+- Comprehensive CI/CD matrix, Go fuzzing, and CodeQL semantic security pipelines.
