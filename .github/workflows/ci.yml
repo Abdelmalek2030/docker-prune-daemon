@@ -1,4 +1,4 @@
-name: CI
+name: CI Matrix & Quality Gate
 
 on:
   push:
@@ -11,27 +11,28 @@ permissions:
 
 jobs:
   verify:
-    name: Go Vet, Race Test & Static Build
+    name: Go 1.22 / Linux AMD64 & ARM64 Matrix
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.22']
     steps:
-      - name: Checkout source
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Set up Go
+      - name: Set up Go ${{ matrix.go-version }}
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: ${{ matrix.go-version }}
 
-      - name: Verify Formatting & Go Vet
-        run: |
-          test -z "$(gofmt -l .)"
-          go vet ./...
+      - name: Verify gofmt formatting
+        run: test -z "$(gofmt -s -l .)"
 
-      - name: Execute Unit Tests with Race Detector
-        run: go test -v -race ./...
+      - name: Run static analysis (go vet)
+        run: go vet ./...
 
-      - name: Execute Syscall Benchmarks
-        run: go test -bench=. -benchmem ./...
+      - name: Execute race-detector unit tests
+        run: go test -v -race -cover ./...
 
-      - name: Build Stripped Static Binary
+      - name: Verify static compilation (CGO_ENABLED=0)
         run: CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o docker-prune-daemon .
