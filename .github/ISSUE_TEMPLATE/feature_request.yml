@@ -1,0 +1,43 @@
+name: Feature Request
+description: Suggest an idea, optimization, or architectural enhancement for docker-prune-daemon
+title: "[Feature]: "
+labels: ["type/enhancement", "status/triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before proposing a new feature, please verify that it aligns with our core philosophy:
+        - **Zero External Dependencies** (pure Go standard library only).
+        - **Minimal Surface Area & Zero Bloat**.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      placeholder: Describe the operational pain point or limitation...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+      placeholder: Propose how the daemon flags or systemd isolation should handle this...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+      placeholder: Alternative approaches or workarounds...
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.
+      placeholder: Any relevant container runtimes, systemd versions, or performance data...
+    validations:
+      required: false
