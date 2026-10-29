@@ -3,12 +3,12 @@
 <div align="center">
 
 [![CI Matrix & Quality Gate](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/ci.yml/badge.svg)](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/ci.yml)
-[![Security Audit](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/security-audit.yml/badge.svg)](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/security-audit.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Abdelmalek2030/docker-prune-daemon/badge)](https://securityscorecards.dev/projects/github.com/Abdelmalek2030/docker-prune-daemon)
+[![Security & Compliance Audit](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/codeql.yml/badge.svg)](https://github.com/Abdelmalek2030/docker-prune-daemon/actions/workflows/codeql.yml)
+[![GoReleaser](https://img.shields.io/badge/release-GoReleaser-blue?style=flat&logo=goreleaser)](https://github.com/goreleaser/goreleaser)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Go Version](https://img.shields.io/badge/Go-1.22%2B-blue.svg)](go.mod)
-[![Architecture](https://img.shields.io/badge/Architecture-100%25%20Go-orange.svg)]()
-[![Zero-Deps](https://img.shields.io/badge/Dependencies-Zero-green.svg)]()
+[![Go Version](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go)](go.mod)
+[![Architecture](https://img.shields.io/badge/Architecture-100%25%20Go-blue.svg)]()
+[![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)]()
 
 **A reference-grade, zero-dependency background daemon written in Go for autonomous Docker disk space reclaim, statfs watermark auditing, and systemd resource maintenance.**
 
